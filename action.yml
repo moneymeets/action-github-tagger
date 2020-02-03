@@ -1,0 +1,30 @@
+name: 'GitHub commit tagger'
+description: 'Tag a specific commit on GitHub'
+inputs:
+  github_user:
+    required: true
+    description: 'GitHub username (e.g. moneymeets)'
+  github_access_token:
+    required: true
+    description: 'GitHub API token'
+  github_repository:
+    required: false
+    default: ${{ github.repository }}
+    description: 'GitHub repository (e.g. moneymeets/demo-repo)'
+  github_sha:
+    required: false
+    default: ${{ github.sha }}
+    description: 'Commit Hash (e.g. 59d2e89c36774ee3775050a437c290a6c1afb3db)'
+  tag:
+    required: true
+    description: 'Tag to set'
+
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    USER: ${{ inputs.github_user }}
+    ACCESS_TOKEN: ${{ inputs.github_access_token }}
+    REPOSITORY: ${{ inputs.github_repository }}
+    COMMIT_HASH: ${{ inputs.github_sha }}
+    TAG: ${{ inputs.tag }}
